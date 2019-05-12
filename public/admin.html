@@ -3,8 +3,35 @@
 <head>
   <meta charset=utf-8>
   <title>Yodlr Admin Page</title>
+  <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css"
+  crossorigin="anonymous">
+  <script src='js/admin.js'></script>
 </head>
 <body>
   List user data here
+    <table>
+      <thead>
+        <th>Id</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Active</th>
+        <th>Email</th>
+      </thead>
+      <tbody id='userList'>
+      </tbody>
+      <tfoot>
+        <form id='adminCreate'>
+          <tr>
+            <td></td>
+            <td><input type='text' id='firstName'></td>
+            <td><input type='text' id='lastName'></td>
+            <td><input type='checkbox' id='state'></td>
+            <td><input type='email' id='email'></td>
+            <td><button>create</button></td>
+          </tr>
+        </form>
+      </tfoot>
+    </table>
 </body>
 </html>
