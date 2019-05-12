@@ -1,12 +1,13 @@
-import { publicDecrypt } from "crypto";
+let currUsers;
 
 $(async function() {
-  const users = await $.get('/users');
-  showUsers(users);
+  currUsers = await $.get('/users');
+  showUsers(currUsers);
 
   $('#userList').on("click", ".toggleState", await toggleState);
   $('#userList').on("click", ".delete", await deleteUser);
-  $("#adminCreate").on("submit", createUser);
+  $('table').on("click", "th", await sortUser);
+  $("#adminCreate").on("submit", await createUser);
 });
 
 /**
@@ -55,6 +56,12 @@ async function toggleState(evt){
     url: `/users/${id}`,
     data: {...user, state: checked ? "active" : "pending"}
   });
+
+  for(let user of currUsers){
+    if(user.id === +id || user.id === id){
+      user.state = user.state === "active" ? "pending" : "active";
+    }
+  }
 }
 
 /**
@@ -69,6 +76,29 @@ async function deleteUser(evt){
     url: `/users/${id}`
   });
   $(`#${id}`).remove();
+  currUsers = currUsers.filter(user => user.id !== +id && user.id !== id);
+}
+
+/**
+ * sort user by different criteria
+ */
+async function sortUser(evt){
+  // let users = await $.get('/users');
+  const tag = evt.target.getAttribute('name');
+  $("#userList").empty();
+
+  function compare(a, b){
+    if (a[tag] < b[tag]){
+      return -1;
+    }
+    if (a[tag] > b[tag]){
+      return 1;
+    }
+    return 0;
+  }
+
+  const sortedUsers = currUsers.sort(compare);
+  showUsers(currUsers);
 }
 
 /**
@@ -81,7 +111,7 @@ async function createUser(evt){
   const email = $("#email").val();
   const firstName = $("#firstName").val();
   const lastName = $("#lastName").val();
-  const state = $("#state").val() ? "active" : "pending";
+  const state = $("#state").is(':checked') ? "active" : "pending";
 
   const user = {email, firstName, lastName, state};
   const newUser = await $.post('/users', user);
@@ -89,4 +119,5 @@ async function createUser(evt){
   $('form').trigger('reset');
 
   showUsers([newUser]);
+  currUsers.push(newUser);
 }

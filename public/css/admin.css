@@ -18,3 +18,7 @@ th, td{
 .fa-trash-alt:hover {
     cursor: pointer;
 }
+
+th:hover {
+    cursor: pointer;
+}
