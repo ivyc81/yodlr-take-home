@@ -1,0 +1,32 @@
+* {
+    box-sizing: border-box;
+}
+
+#signup {
+    text-align: center;
+}
+
+form {
+    box-shadow: 1px 1px 5px black;
+    display: inline-block;
+    padding: 2em;
+    border-radius: 0.5em;
+    width: 60%
+}
+
+label {
+    display: inline-block;
+    text-align: left;
+    width: 25%;
+}
+
+input{
+    width: 65%;
+    padding: 0.6em;
+}
+
+button {
+    margin: 2em auto 0 auto;
+    padding: 1.1em;
+    border-radius: 1em;
+}

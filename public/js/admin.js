@@ -1,6 +1,7 @@
+import { publicDecrypt } from "crypto";
+
 $(async function() {
   const users = await $.get('/users');
-  console.log(users)
   showUsers(users);
 
   $('#userList').on("click", ".toggleState", await toggleState);
@@ -62,7 +63,6 @@ async function toggleState(evt){
  */
 async function deleteUser(evt){
   const {id} = evt.target.parentNode.parentNode;
-  console.log('id', id)
 
   await $.ajax({
     method: "DELETE",
@@ -83,13 +83,10 @@ async function createUser(evt){
   const lastName = $("#lastName").val();
   const state = $("#state").val() ? "active" : "pending";
 
-  const currUsers = await $.get('/users');
-  const currId = currUsers[currUsers.length - 1].id;
-
-  const user = {email, firstName, lastName, state, id: currId + 1};
-  await $.post('/users', user);
+  const user = {email, firstName, lastName, state};
+  const newUser = await $.post('/users', user);
 
   $('form').trigger('reset');
 
-  showUsers([user]);
+  showUsers([newUser]);
 }

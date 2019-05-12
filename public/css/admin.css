@@ -1,0 +1,20 @@
+* {
+    box-sizing: border-box;
+}
+
+#admin {
+    text-align: center;
+}
+
+table {
+    margin: auto;
+}
+
+th, td{
+    text-align: left;
+    padding: 0 0.5em;
+}
+
+.fa-trash-alt:hover {
+    cursor: pointer;
+}
