@@ -27,13 +27,13 @@ function createUserHTML(user){
   const {firstName, lastName, id, state, email} = user;
 
   const userHTML =  $(
-    `<tr>
+    `<tr id='${id}'>
       <td>${id}</td>
       <td>${firstName}</td>
       <td>${lastName}</td>
-      <td><input class='toggleState' type='checkbox' id='${id}' ${state === 'active' ? 'checked' : ''}></td>
+      <td><input class='toggleState' type='checkbox' ${state === 'active' ? 'checked' : ''}></td>
       <td>${email}</td>
-      <td><i class='far fa-trash-alt'></i></td>
+      <td><i class='far fa-trash-alt delete'></i></td>
     </tr>`
   );
 
@@ -44,7 +44,8 @@ function createUserHTML(user){
  * updates user state
  */
 async function toggleState(evt){
-  const {id, checked} = evt.target;
+  const {checked} = evt.target;
+  const {id} = evt.target.parentNode.parentNode;
 
   const user = await $.get(`/users/${id}`);
 
@@ -52,15 +53,22 @@ async function toggleState(evt){
     method: "PUT",
     url: `/users/${id}`,
     data: {...user, state: checked ? "active" : "pending"}
-  })
+  });
 }
 
 /**
  * delete user in database
  * delete user form table
  */
-async function deleteUser(){
+async function deleteUser(evt){
+  const {id} = evt.target.parentNode.parentNode;
+  console.log('id', id)
 
+  await $.ajax({
+    method: "DELETE",
+    url: `/users/${id}`
+  });
+  $(`#${id}`).remove();
 }
 
 /**
