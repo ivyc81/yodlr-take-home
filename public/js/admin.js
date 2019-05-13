@@ -81,8 +81,8 @@ async function deleteUser(evt){
 
 /**
  * sort user by different criteria
- * sort asc if sorting by tag for the first time
- * sort desc if sorting by tag the second time
+ * sort asc if sorting by the tag for the first time
+ * toggle beteen desc/asc if sorting by the same tag after the first time
  */
 async function sortUser(evt){
   const tag = evt.target.getAttribute('name');
