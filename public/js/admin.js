@@ -81,20 +81,39 @@ async function deleteUser(evt){
 
 /**
  * sort user by different criteria
+ * sort asc if sorting by tag for the first time
+ * sort desc if sorting by tag the second time
  */
 async function sortUser(evt){
-  // let users = await $.get('/users');
   const tag = evt.target.getAttribute('name');
+  const currSort = $(evt.target).children("i").attr('class');
   $("#userList").empty();
 
-  function compare(a, b){
-    if (a[tag] < b[tag]){
-      return -1;
+  if(currSort === "fas fa-sort" || currSort === "fas fa-sort-down"){
+    $("th>i").attr("class", "fas fa-sort");
+    $(evt.target).children("i").attr('class', "fas fa-sort-up");
+
+    function compare(a, b){
+      if (a[tag] < b[tag]){
+        return -1;
+      }
+      if (a[tag] > b[tag]){
+        return 1;
+      }
+      return 0;
     }
-    if (a[tag] > b[tag]){
-      return 1;
+  } else {
+    $(evt.target).children("i").attr('class', "fas fa-sort-down");
+
+    function compare(a, b){
+      if (a[tag] < b[tag]){
+        return 1;
+      }
+      if (a[tag] > b[tag]){
+        return -1;
+      }
+      return 0;
     }
-    return 0;
   }
 
   const sortedUsers = currUsers.sort(compare);
